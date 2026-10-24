@@ -1,0 +1,7 @@
+mutation,file,description,fuzz_suite_result,typescript_suite_result
+M1,SukukPolicyEngine.sol,issuance threshold lowered to 3299 bps,survived,killed
+M2,SukukPolicyEngine.sol,allocation may exceed attested value by one unit,survived,killed
+M3,SukukPolicyEngine.sol,allocation total may exceed proceeds by half,survived,killed
+M4,SukukToken.sol,settlement may exceed a claim by one unit,killed,survived
+M5,EvidenceRegistry.sol,claim windows up to 31 days accepted,killed,killed
+M6,EvidenceRegistry.sol,equal sequence number accepted (replay),killed,killed

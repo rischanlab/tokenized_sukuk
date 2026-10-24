@@ -1,0 +1,4 @@
+MOCK SHARIAH PRONOUNCEMENT - SYNTHETIC - NOT A FATWA
+Instrument: SYN-SUKUK-WAKALAH-001
+Policy: MY-SAC-WAKALAH-2023 v1 (authors' encoding)
+This placeholder stands in for an adviser's pronouncement whose hash is carried in the ShariahStatus attestation. It is not a Shariah opinion.

@@ -1,0 +1,49 @@
+{
+  "_notice": "SYNTHETIC TEST FIXTURE. No real issuer, asset, investor or security is represented. Values are nominal units with 18 decimals on-chain.",
+  "instrument": {
+    "label": "SYN-SUKUK-WAKALAH-001",
+    "structure": "Sukuk Wakalah bi al-Istithmar (synthetic)",
+    "jurisdictionModelled": "Malaysia (policy simulation only)",
+    "policyId": "MY-SAC-WAKALAH-2023",
+    "policyVersion": 1,
+    "tenorDays": 365
+  },
+  "assets": [
+    {
+      "label": "ASSET-IJARAH-001",
+      "class": "NON_DEBT",
+      "rightsType": "BENEFICIAL_INTEREST",
+      "value": "25000000",
+      "description": "Beneficial interest in a leased commercial property held by the wakeel for the portfolio (ijarah asset)",
+      "documentRef": "fixtures/mock_legal_documents/ASSET-IJARAH-001.txt"
+    },
+    {
+      "label": "ASSET-MUSHARAKAH-002",
+      "class": "NON_DEBT",
+      "rightsType": "BENEFICIAL_INTEREST",
+      "value": "15000000",
+      "description": "Participation in a musharakah venture (equity-type, non-debt investment asset)",
+      "documentRef": "fixtures/mock_legal_documents/ASSET-MUSHARAKAH-002.txt"
+    },
+    {
+      "label": "ASSET-MURABAHAH-003",
+      "class": "DEBT",
+      "rightsType": "RECEIVABLE",
+      "value": "80000000",
+      "description": "Commodity murabahah receivable (debt component of the wakalah portfolio)",
+      "documentRef": "fixtures/mock_legal_documents/ASSET-MURABAHAH-003.txt"
+    }
+  ],
+  "tranches": [
+    {
+      "label": "TRANCHE-1",
+      "proceeds": "100000000",
+      "allocation": {
+        "ASSET-IJARAH-001": "25000000",
+        "ASSET-MUSHARAKAH-002": "10000000",
+        "ASSET-MURABAHAH-003": "65000000"
+      },
+      "subscribers": { "inv1": "60000000", "inv2": "40000000" }
+    }
+  ]
+}

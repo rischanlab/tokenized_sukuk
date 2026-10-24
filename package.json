@@ -1,0 +1,43 @@
+{
+  "name": "tokenised-sukuk-evidence",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Research prototype: evidence-dependent, Shariah-aware compliance for a synthetic tokenised Sukuk Wakalah (B0/B1/B2/B2F evaluation).",
+  "scripts": {
+    "build": "hardhat build",
+    "typecheck": "tsc --noEmit",
+    "test": "hardhat test",
+    "test:rules": "hardhat test test/ShariahRules.ts",
+    "test:credentials": "hardhat test test/Credentials.ts",
+    "test:lifecycle": "hardhat test test/Lifecycle.ts",
+    "oracle": "hardhat test test/Oracle.ts",
+    "model": "hardhat test test/ModelBased.ts",
+    "bench": "hardhat test test/Benchmark.ts",
+    "coverage": "hardhat test --coverage",
+    "paper:tables": "python3 paper/scripts/make_tables.py",
+    "paper": "cd paper && latexmk -pdf manuscript.tex supplementary.tex highlights.tex",
+    "coverage:summary": "python3 scripts/coverage_summary.py",
+    "static:summary": "python3 scripts/static_summary.py",
+    "test:boundaries": "hardhat test test/Boundaries.ts",
+    "model:full": "MODEL_SEEDS=20 MODEL_STEPS=500 MODEL_PROFILES=adversarial,maintained hardhat test test/ModelBased.ts",
+    "model:replicate": "MODEL_SEEDS=5 MODEL_STEPS=250 MODEL_PROFILES=adversarial MODEL_OUT=model_based_replication_5x250 hardhat test test/ModelBased.ts",
+    "static": "scripts/run_slither.sh && python3 scripts/static_summary.py",
+    "mutants": "python3 scripts/run_mutants.py",
+    "reproduce": "scripts/reproduce.sh"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox-viem": "5.0.7",
+    "@types/node": "^22.15.0",
+    "hardhat": "3.11.1",
+    "typescript": "^5.8.3",
+    "viem": "2.55.10"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "5.6.1"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,9 @@
+set,config,scenarios_applicable,agree,false_accept,false_reject,design_conformance
+primary,B0,23,10,13,0,26/26
+primary,B1,26,20,6,0,26/26
+primary,B2,26,26,0,0,26/26
+primary,B2F,26,26,0,0,26/26
+supplementary,B0,4,3,1,0,4/4
+supplementary,B1,4,3,0,1,4/4
+supplementary,B2,4,2,0,2,4/4
+supplementary,B2F,4,4,0,0,4/4

@@ -1,0 +1,7 @@
+phase,detector,impact,confidence,unique_findings,contracts
+initial,calls-loop,Low,Medium,6,SukukPolicyEngine.sol;SukukToken.sol
+initial,missing-zero-check,Low,Medium,2,BasicCompliance.sol;SukukPolicyEngine.sol
+initial,timestamp,Low,Medium,15,EvidenceRegistry.sol;IdentityRegistry.sol;SukukPolicyEngine.sol;SukukToken.sol
+initial,uninitialized-local,Medium,Medium,5,EvidenceRegistry.sol;SukukPolicyEngine.sol;SukukToken.sol
+current,calls-loop,Low,Medium,8,SukukPolicyEngine.sol;SukukToken.sol
+current,timestamp,Low,Medium,15,EvidenceRegistry.sol;IdentityRegistry.sol;SukukPolicyEngine.sol;SukukToken.sol

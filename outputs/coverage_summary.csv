@@ -1,0 +1,10 @@
+file,lines_found,lines_hit,line_pct,branches_found,branches_hit,branch_pct,production
+contracts/baseline/BasicCompliance.sol,7,6,85.71,0,0,,true
+contracts/policy/SukukPolicyEngine.sol,176,174,98.86,0,0,,true
+contracts/policy/SukukPolicyEngineFallback.sol,23,23,100.00,0,0,,true
+contracts/registry/EvidenceRegistry.sol,190,190,100.00,0,0,,true
+contracts/registry/IdentityRegistry.sol,9,8,88.89,0,0,,true
+contracts/test/InlineEvidenceHarness.sol,46,41,89.13,0,0,,false
+contracts/test/Mock1271Wallet.sol,6,5,83.33,0,0,,false
+contracts/token/SukukToken.sol,70,69,98.57,0,0,,true
+production_total,475,470,98.95,0,0,,true

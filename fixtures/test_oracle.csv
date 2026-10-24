@@ -1,0 +1,31 @@
+scenario_id,set,test_id,operation,description,expected_B0,expected_B1,expected_B2,expected_B2F,expected_policy,expected_reason_B2,policy_basis,rq
+S01,primary,T01,issue,Valid credentials; 35% of proceeds allocated to non-debt assets,ALLOW,ALLOW,ALLOW,ALLOW,ALLOW,OK,SAC-2023 issuance minimum (>=33% of proceeds),RQ1;RQ2
+S02,primary,T01,issue,Valid credentials; exactly 33.00% non-debt (boundary),ALLOW,ALLOW,ALLOW,ALLOW,ALLOW,OK,SAC-2023 issuance minimum (at least 33%),RQ2
+S03,primary,T02,issue,Valid credentials; 32.99% non-debt (boundary),ALLOW,ALLOW,DENY,DENY,DENY,NON_DEBT_RATIO_BELOW_MINIMUM,SAC-2023 issuance minimum,RQ2
+S04,primary,T02,issue,One allocated asset reclassified as debt by the Shariah adviser so the non-debt share falls to 25%,ALLOW,ALLOW,DENY,DENY,DENY,NON_DEBT_RATIO_BELOW_MINIMUM,SAC-2023 issuance minimum; classification attested by Shariah adviser,RQ2
+S05,primary,T03,transfer,After issuance the non-debt share falls to about 6% but a non-debt asset remains,ALLOW,ALLOW,ALLOW,ALLOW,ALLOW,OK,SAC-2023: percentage need not be maintained during tenure (negative control),RQ2
+S06,primary,T04,transfer,After issuance every non-debt asset is disposed (value attested as zero),ALLOW,ALLOW,DENY,DENY,DENY,NON_DEBT_COMPONENT_UNVERIFIED,SAC-2023 continuing component; fail-closed restriction is the authors' design choice,RQ2;RQ3
+S07,primary,T05,issue,Tranche allocation co-signed by an unregistered key instead of the trustee,ALLOW,DENY,DENY,DENY,DENY,TRANCHE_INVALID,Role-separated attestation (design requirement C1),RQ1
+S08,primary,T05,issue,Allocation exceeds attested value after a forged valuation claim was rejected,ALLOW,DENY,DENY,DENY,DENY,ALLOCATION_INVALID,Attributable valuation evidence (design requirement C1),RQ1
+S09,primary,T06,transfer,All evidence has expired (time advanced past validity),ALLOW,DENY,DENY,DENY,DENY,SHARIAH_STATUS_INVALID,Freshness requirement (design requirement C3),RQ1;RQ3
+S10,primary,T06,transfer,Transfer at the exact expiry second of the evidence (inclusive bound),ALLOW,ALLOW,ALLOW,ALLOW,ALLOW,OK,Freshness boundary (validUntil inclusive),RQ3
+S11,primary,T06,transfer,Rights credentials of every non-debt asset revoked by the legal verifier,ALLOW,ALLOW,DENY,DENY,DENY,NON_DEBT_COMPONENT_UNVERIFIED,Revocation (design requirement C1) and continuing component,RQ1;RQ3
+S12,primary,T07,issue,Second issuance replaying an already used tranche allocation,ALLOW,DENY,DENY,DENY,DENY,TRANCHE_REPLAYED,Replay protection (EIP-712 leaves replay to the application),RQ1
+S13,primary,T07,issue,Tranche allocation signed for another chain id,ALLOW,DENY,DENY,DENY,DENY,TRANCHE_INVALID,Domain separation (EIP-712 chainId),RQ1
+S14,primary,T08,transfer,Custodian notices of encumbrance contradict the legal verifier on both non-debt assets,ALLOW,ALLOW,DENY,DENY,DENY,NON_DEBT_COMPONENT_UNVERIFIED,Conflicting evidence fails closed (design requirement C3),RQ1;RQ3
+S15,primary,T08,issue,Second tranche re-uses value already allocated to an asset,ALLOW,DENY,DENY,DENY,DENY,ALLOCATION_INVALID,No double counting (invariant I5),RQ1;RQ3
+S16,primary,T09,transfer,Transfer to a wallet that is not in the identity registry,DENY,DENY,DENY,DENY,DENY,RECEIVER_NOT_VERIFIED,ERC-3643 receiver eligibility,RQ2
+S17,primary,T10,governance,Policy activation with one governor approval (quorum is two),N/A,DENY,DENY,DENY,DENY,QuorumNotReached,Human-authorised versioned policy (invariant I3),RQ3
+S18,primary,T11,transfer,Legal verifier key revoked after compromise; no remediation yet,ALLOW,DENY,DENY,DENY,DENY,NON_DEBT_COMPONENT_UNVERIFIED,Attestor revocation invalidates its claims (invariant I4),RQ3
+S19,primary,T11,transfer,After remediation: new legal key re-attests and witness re-nominated,ALLOW,ALLOW,ALLOW,ALLOW,ALLOW,OK,Recovery path,RQ3
+S20,primary,T12,evidence,Older valuation (lower sequence) submitted after a newer one,N/A,DENY,DENY,DENY,DENY,StaleOrReplayedClaim,No stale overwrite (invariant I4),RQ3
+S21,primary,T13,redeem,After maturity a holder requests redemption beyond remaining balance,DENY,DENY,DENY,DENY,DENY,ERC20InsufficientBalance,No double redemption (invariant I6),RQ3
+S22,primary,T13,settle,Settlement confirmation exceeding the pending claim,DENY,DENY,DENY,DENY,DENY,InvalidRedemption,Pending obligations accounted (invariant I6),RQ3
+S23,primary,-,transfer,Ordinary transfer between verified holders with current evidence,ALLOW,ALLOW,ALLOW,ALLOW,ALLOW,OK,Positive control,RQ2
+S24,primary,-,issue,Issuance while the Shariah status attestation says not endorsed,ALLOW,ALLOW,DENY,DENY,DENY,SHARIAH_STATUS_INVALID,Current Shariah status attestation required (design requirement C2),RQ2
+S25,primary,-,transfer,Instrument suspended by one governor (dispute),N/A,DENY,DENY,DENY,DENY,INSTRUMENT_SUSPENDED,Lifecycle suspension (invariant I8),RQ3
+S26,primary,-,transfer,Ordinary transfer after maturity,DENY,DENY,DENY,DENY,DENY,INSTRUMENT_MATURED,Matured certificates are redeemed not traded (prototype rule),RQ3
+G01,supplementary,T03,transfer,Witness asset valued at zero while another non-debt asset remains eligible; witness not re-nominated,ALLOW,DENY,DENY,ALLOW,ALLOW,NON_DEBT_COMPONENT_UNVERIFIED,SAC-2023 continuing component is satisfied; single-witness check is the authors' design choice (known false reject),RQ2;RQ3
+G02,supplementary,T03,transfer,Witness asset reclassified as debt while another non-debt asset remains eligible; witness not re-nominated,ALLOW,ALLOW,DENY,ALLOW,ALLOW,NON_DEBT_COMPONENT_UNVERIFIED,SAC-2023 continuing component is satisfied; single-witness check is the authors' design choice (known false reject),RQ2;RQ3
+G03,supplementary,T16,transfer,Attested values of all three assets fall to 1% of their issuance values; the witness remains eligible,ALLOW,ALLOW,ALLOW,ALLOW,ALLOW,OK,Scope boundary: the encoded rule contains no continuing asset-to-obligation coverage test,RQ2
+G04,supplementary,T16,issue,A new tranche allocates to an asset whose valuation was reduced below the amount already allocated to it,ALLOW,DENY,DENY,DENY,DENY,ALLOCATION_INVALID,No double counting against current attested value (invariant I5; authors' control),RQ1;RQ3

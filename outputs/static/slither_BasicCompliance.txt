@@ -1,0 +1,4 @@
+Multiple frameworks detected: solc, Solc-json. Using solc (highest priority). Use --compile-force-framework to override.
+'/tmp/claude-0/solc/solc-0.8.28 --version' running
+'/tmp/claude-0/solc/solc-0.8.28 @openzeppelin/=node_modules/@openzeppelin/ contracts/baseline/BasicCompliance.sol --combined-json abi,ast,bin,bin-runtime,srcmap,srcmap-runtime,userdoc,devdoc,hashes --evm-version cancun --optimize --optimize-runs 200 --allow-paths .,/tmp/claude-0/work/v3/contracts/baseline' running
+contracts/baseline/BasicCompliance.sol analyzed (3 contracts with 102 detectors), 0 result(s) found

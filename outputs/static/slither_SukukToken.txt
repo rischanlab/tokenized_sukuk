@@ -1,0 +1,30 @@
+Multiple frameworks detected: solc, Solc-json. Using solc (highest priority). Use --compile-force-framework to override.
+'/tmp/claude-0/solc/solc-0.8.28 --version' running
+'/tmp/claude-0/solc/solc-0.8.28 @openzeppelin/=node_modules/@openzeppelin/ contracts/token/SukukToken.sol --combined-json abi,ast,bin,bin-runtime,srcmap,srcmap-runtime,userdoc,devdoc,hashes --evm-version cancun --optimize --optimize-runs 200 --allow-paths .,/tmp/claude-0/work/v3/contracts/token' running
+
+Detector: calls-loop
+SukukToken.issue(bytes,address[],uint256[]) (contracts/token/SukukToken.sol#133-164) has external calls inside a loop: ! identityRegistry.isVerified(recipients[i_scope_0]) (contracts/token/SukukToken.sol#155)
+SukukToken.preCheckTransfer(address,address,uint256) (contracts/token/SukukToken.sol#102-114) has external calls inside a loop: ! identityRegistry.isVerified(to) (contracts/token/SukukToken.sol#110)
+	Calls stack containing the loop:
+		SukukToken.issue(bytes,address[],uint256[])
+		ERC20._mint(address,uint256)
+		SukukToken._update(address,address,uint256)
+SukukToken.preCheckTransfer(address,address,uint256) (contracts/token/SukukToken.sol#102-114) has external calls inside a loop: compliance.canTransfer(from,to,amount) (contracts/token/SukukToken.sol#113)
+	Calls stack containing the loop:
+		SukukToken.issue(bytes,address[],uint256[])
+		ERC20._mint(address,uint256)
+		SukukToken._update(address,address,uint256)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
+
+Detector: timestamp
+SukukToken.preCheckTransfer(address,address,uint256) (contracts/token/SukukToken.sol#102-114) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= maturity (contracts/token/SukukToken.sol#109)
+SukukToken.issue(bytes,address[],uint256[]) (contracts/token/SukukToken.sol#133-164) uses timestamp for comparisons
+	Dangerous comparisons:
+	- recipients.length == 0 || recipients.length != amounts.length || block.timestamp >= maturity (contracts/token/SukukToken.sol#139-141)
+SukukToken.requestRedemption(uint256) (contracts/token/SukukToken.sol#215-233) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < maturity (contracts/token/SukukToken.sol#220)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+contracts/token/SukukToken.sol analyzed (16 contracts with 102 detectors), 6 result(s) found

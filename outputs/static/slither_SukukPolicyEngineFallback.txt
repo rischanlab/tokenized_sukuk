@@ -1,0 +1,59 @@
+Multiple frameworks detected: solc, Solc-json. Using solc (highest priority). Use --compile-force-framework to override.
+'/tmp/claude-0/solc/solc-0.8.28 --version' running
+'/tmp/claude-0/solc/solc-0.8.28 @openzeppelin/=node_modules/@openzeppelin/ contracts/policy/SukukPolicyEngineFallback.sol --combined-json abi,ast,bin,bin-runtime,srcmap,srcmap-runtime,userdoc,devdoc,hashes --evm-version cancun --optimize --optimize-runs 200 --allow-paths .,/tmp/claude-0/work/v3/contracts/policy' running
+
+Detector: calls-loop
+SukukPolicyEngine._checkAllocation(EvidenceRegistry.TrancheAllocation,SukukPolicyEngine.PolicyParams) (contracts/policy/SukukPolicyEngine.sol#273-316) has external calls inside a loop: ! evidence.backingEligible(assetId,p.excludeEncumbered) (contracts/policy/SukukPolicyEngine.sol#290)
+	Calls stack containing the loop:
+		SukukPolicyEngine.authorizeIssuance(bytes,uint256)
+SukukPolicyEngine._checkAllocation(EvidenceRegistry.TrancheAllocation,SukukPolicyEngine.PolicyParams) (contracts/policy/SukukPolicyEngine.sol#273-316) has external calls inside a loop: allocated[assetId] + amount > evidence.assetValue(assetId) (contracts/policy/SukukPolicyEngine.sol#293)
+	Calls stack containing the loop:
+		SukukPolicyEngine.authorizeIssuance(bytes,uint256)
+SukukPolicyEngine._checkAllocation(EvidenceRegistry.TrancheAllocation,SukukPolicyEngine.PolicyParams) (contracts/policy/SukukPolicyEngine.sol#273-316) has external calls inside a loop: evidence.nonDebtEligible(assetId,p.version,p.excludeEncumbered) (contracts/policy/SukukPolicyEngine.sol#299-303)
+	Calls stack containing the loop:
+		SukukPolicyEngine.authorizeIssuance(bytes,uint256)
+SukukPolicyEngine._witnessEligible(bytes32,SukukPolicyEngine.PolicyParams) (contracts/policy/SukukPolicyEngine.sol#330-340) has external calls inside a loop: evidence.nonDebtEligible(assetId,p.version,p.excludeEncumbered) (contracts/policy/SukukPolicyEngine.sol#337)
+	Calls stack containing the loop:
+		SukukPolicyEngineFallback.canTransfer(address,address,uint256)
+SukukPolicyEngine._witnessEligible(bytes32,SukukPolicyEngine.PolicyParams) (contracts/policy/SukukPolicyEngine.sol#330-340) has external calls inside a loop: evidence.backingEligible(assetId,p.excludeEncumbered) (contracts/policy/SukukPolicyEngine.sol#339)
+	Calls stack containing the loop:
+		SukukPolicyEngineFallback.canTransfer(address,address,uint256)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
+
+Detector: timestamp
+SukukPolicyEngine.authorizeIssuance(bytes,uint256) (contracts/policy/SukukPolicyEngine.sol#191-267) uses timestamp for comparisons
+	Dangerous comparisons:
+	- tranches[t.trancheId].authorizedAt != 0 (contracts/policy/SukukPolicyEngine.sol#207)
+SukukPolicyEngine.activatePolicy(uint256) (contracts/policy/SukukPolicyEngine.sol#374-392) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < proposal.createdAt + timelock (contracts/policy/SukukPolicyEngine.sol#378)
+EvidenceRegistry.submitAttestation(EvidenceRegistry.Attestation,address,bytes) (contracts/registry/EvidenceRegistry.sol#242-294) uses timestamp for comparisons
+	Dangerous comparisons:
+	- a.issuedAt > block.timestamp || block.timestamp > a.validUntil || a.validUntil - a.issuedAt > maxClaimValidity (contracts/registry/EvidenceRegistry.sol#254-256)
+EvidenceRegistry.verifyTranche(EvidenceRegistry.TrancheAllocation,address[],bytes[]) (contracts/registry/EvidenceRegistry.sol#336-371) uses timestamp for comparisons
+	Dangerous comparisons:
+	- t.instrumentId != instrumentId || t.assetIds.length != t.amounts.length || signers.length != 2 || signatures.length != 2 || t.issuedAt > block.timestamp || block.timestamp > t.validUntil || t.validUntil - t.issuedAt > maxClaimValidity (contracts/registry/EvidenceRegistry.sol#343-349)
+EvidenceRegistry.isEncumbered(bytes32) (contracts/registry/EvidenceRegistry.sol#398-403) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (rights.flag && _isCurrent(rights)) || (notice.signer != address(0) && notice.flag && ! notice.revoked) (contracts/registry/EvidenceRegistry.sol#401-402)
+EvidenceRegistry.backingEligible(bytes32,bool) (contracts/registry/EvidenceRegistry.sol#407-417) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ! valuation.flag || ! _isCurrent(valuation) (contracts/registry/EvidenceRegistry.sol#414)
+	- excludeEncumbered && isEncumbered(assetId) (contracts/registry/EvidenceRegistry.sol#415)
+EvidenceRegistry.nonDebtEligible(bytes32,uint32,bool) (contracts/registry/EvidenceRegistry.sol#421-433) uses timestamp for comparisons
+	Dangerous comparisons:
+	- c.code != CLASS_NON_DEBT || c.policyVersion != policyVersion || ! _isCurrent(c) (contracts/registry/EvidenceRegistry.sol#428-430)
+EvidenceRegistry.shariahStatusValid(uint32) (contracts/registry/EvidenceRegistry.sol#435-444) uses timestamp for comparisons
+	Dangerous comparisons:
+	- c.code == STATUS_ENDORSED && c.policyVersion == policyVersion && _isCurrent(c) (contracts/registry/EvidenceRegistry.sol#441-443)
+EvidenceRegistry.checkTransferEvidence(bytes32,uint32,bool,bool,bool) (contracts/registry/EvidenceRegistry.sol#448-470) uses timestamp for comparisons
+	Dangerous comparisons:
+	- requireShariahStatus && ! shariahStatusValid(policyVersion) (contracts/registry/EvidenceRegistry.sol#455)
+EvidenceRegistry._isCurrent(EvidenceRegistry.StoredClaim) (contracts/registry/EvidenceRegistry.sol#476-481) uses timestamp for comparisons
+	Dangerous comparisons:
+	- c.signer != address(0) && ! c.revoked && block.timestamp <= c.validUntil && attestors[c.signer].active (contracts/registry/EvidenceRegistry.sol#477-480)
+EvidenceRegistry._flagConflict(bytes32) (contracts/registry/EvidenceRegistry.sol#497-509) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _isCurrent(rights) && ! rights.flag && notice.signer != address(0) && notice.flag && ! notice.revoked (contracts/registry/EvidenceRegistry.sol#501-505)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+contracts/policy/SukukPolicyEngineFallback.sol analyzed (25 contracts with 102 detectors), 16 result(s) found

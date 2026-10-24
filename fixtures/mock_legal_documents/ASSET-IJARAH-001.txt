@@ -1,0 +1,3 @@
+MOCK LEGAL DOCUMENT - SYNTHETIC - NOT A REAL INSTRUMENT
+Asset: ASSET-IJARAH-001
+This placeholder stands in for the off-chain document whose keccak256 hash is carried as evidenceHash in attestations. Its content has no legal effect.

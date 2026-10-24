@@ -1,0 +1,160 @@
+
+Compiled 12 Solidity files with solc 0.8.28 (evm target: cancun)
+
+Running Solidity tests
+
+  contracts/fuzz/PropertyFuzz.t.sol:RedemptionAccountingFuzzTest
+    ✔ testFuzz_RedemptionAccounting(uint96,uint96,uint256[8]) (runs: 1000)
+
+  contracts/fuzz/PropertyFuzz.t.sol:ClaimWindowFuzzTest
+    ✔ testFuzz_ValidityWindow(uint32,uint32,uint32) (runs: 1000)
+    ✔ testFuzz_SequenceMonotonic(uint64,uint64) (runs: 1000)
+
+  contracts/fuzz/PropertyFuzz.t.sol:IssuanceRuleFuzzTest
+    ✔ testFuzz_IssuanceMinimum(uint96,uint96,uint96,uint96,uint96,bool) (runs: 1000)
+
+Running node:test tests
+
+  T14 gas and latency benchmark
+    ✔ B0: deployment, transfers, credential updates, issuance and latency (4397ms)
+    ✔ B1: deployment, transfers, credential updates, issuance and latency (13522ms)
+    ✔ B2: deployment, transfers, credential updates, issuance and latency (15377ms)
+    ✔ B2F: deployment, transfers, credential updates, issuance and latency (15843ms)
+    ✔ B2F: transfer gas when the witness fails and the scan finds an eligible candidate (2174ms)
+    ✔ Inline (per-transfer signature verification) versus stored evidence (178ms)
+    ✔ writes outputs/gas_metrics.csv, latency_metrics.csv and environment.json
+
+  Scope boundaries of the evidence and policy controls
+    ✔ T15: no-double-counting is scoped to one instrument; a second instrument can pledge the same asset (253ms)
+    ✔ T16: transfers do not test aggregate coverage; allocation capacity follows current value (B2) (133ms)
+    ✔ T16: transfers do not test aggregate coverage; allocation capacity follows current value (B2F) (139ms)
+    ✔ T03-F: B2F permits transfers without re-nomination while another non-debt asset is eligible
+    ✔ T03-F: the B2F candidate list records first allocations only and stops at 32 assets (759ms)
+    ✔ T21: a non-debt asset beyond the 32-entry candidate list does not keep transfers live (B2) (1086ms)
+    ✔ T21: a non-debt asset beyond the 32-entry candidate list does not keep transfers live (B2F) (1588ms)
+    ✔ T17: transfers stay live when only the witness claims and the Shariah status are renewed (B2) (222ms)
+    ✔ T19: an allocation may reach, and may not exceed, the attested value of an asset (B1) (154ms)
+    ✔ T20: allocations in one tranche may not sum to more than its proceeds (B1) (170ms)
+    ✔ T19: an allocation may reach, and may not exceed, the attested value of an asset (B2) (166ms)
+    ✔ T20: allocations in one tranche may not sum to more than its proceeds (B2) (199ms)
+    ✔ T18: the agent's forced transfer bypasses the continuing-component rule and is logged (B2)
+
+  Credential verification (RQ1)
+    ✔ T05: rejects a claim signed by an unregistered key
+    ✔ T05: rejects a claim signed by a registered attestor outside its role
+    ✔ T05: rejects an altered payload and a signature attributed to another signer
+    ✔ T05: an issuer-side key cannot hold an independent verification role
+    ✔ T05: a tranche needs one wakeel and one trustee signature (141ms)
+    ✔ accepts an institutional signer that uses an EIP-1271 contract wallet
+
+  Claim content and attestor registry (RQ1)
+    ✔ T05: malformed claims and invalid attestor registrations are rejected
+
+  Freshness and revocation (RQ1, RQ3)
+    ✔ T06: rejects a claim that is already expired, future-dated or over-long
+    ✔ T06: transfers are denied once the evidence they rely on expires (B1 and B2) (258ms)
+    ✔ T06: a revoked rights credential stops the asset counting as evidence
+    ✔ T07: rejects replay of the same claim and of an older sequence number
+    ✔ T07: rejects a claim bound to another instrument, chain or verifier contract
+    ✔ T07: rejects re-use of an authorised tranche (79ms)
+    ✔ T06: a tranche allocation that has expired, is over-long or has mismatched arrays is rejected (83ms)
+    ✔ T11: a compromised attestor is revoked and remediated with a new key (166ms)
+    ✔ T12: out-of-order updates in the same block cannot overwrite a newer claim
+
+  Conflicts and double counting (RQ1, RQ3)
+    ✔ T08: conflicting encumbrance evidence is flagged and the asset stops counting (153ms)
+    ✔ T08: an encumbrance notice stays effective after it expires (negative evidence) (78ms)
+    ✔ T08 / I5: the same asset cannot back more than its attested value (106ms)
+    ✔ I5: an unsorted or duplicated allocation is rejected (85ms)
+    ✔ I5: an allocation larger than the proceeds is rejected, and only the bound token can request authorisation (102ms)
+
+  Identity and transfer paths (RQ2, I7)
+    ✔ T09: transfer to a non-allowlisted wallet is denied under B0
+    ✔ T09: transfer to a non-allowlisted wallet is denied under B1 (90ms)
+    ✔ T09: transfer to a non-allowlisted wallet is denied under B2 (117ms)
+    ✔ T09: transfer to a non-allowlisted wallet is denied under B2F (127ms)
+    ✔ I7: transferFrom is subject to the same checks as transfer
+    ✔ I7: issuance is possible only through the authorised issue path and to verified wallets
+    ✔ I7/I8: forced transfer needs an agent, a justification and a verified receiver, and is logged (147ms)
+
+  Agent controls inherited from the regulated-token baseline (RQ2)
+    ✔ the compliance contract binds once, to a non-zero token, under B0
+    ✔ pause, freeze and identity removal or expiry deny transfers under B0
+    ✔ the compliance contract binds once, to a non-zero token, under B1 (129ms)
+    ✔ pause, freeze and identity removal or expiry deny transfers under B1
+    ✔ the compliance contract binds once, to a non-zero token, under B2
+    ✔ pause, freeze and identity removal or expiry deny transfers under B2
+    ✔ the compliance contract binds once, to a non-zero token, under B2F (147ms)
+    ✔ pause, freeze and identity removal or expiry deny transfers under B2F
+
+  Governance and lifecycle (RQ3, I3, I8)
+    ✔ T10: a policy update without quorum, before the timelock or by a non-governor is rejected
+    ✔ T10: an approved update applies after the timelock, only prospectively, and fails closed until re-attested
+    ✔ T10: malformed proposals, closed proposals and tranches bound to another policy version are rejected
+    ✔ suspension cannot be stacked, and resume votes do not carry over to a later suspension
+    ✔ suspension by one governor halts transfers and issuance; resumption needs a quorum
+
+  Maturity, redemption and obligations (T13, I6)
+    ✔ T13: partial redemption with pending obligations keeps accounting consistent under B0
+    ✔ T13: partial redemption with pending obligations keeps accounting consistent under B1 (110ms)
+    ✔ T13: partial redemption with pending obligations keeps accounting consistent under B2
+    ✔ T13: partial redemption with pending obligations keeps accounting consistent under B2F (114ms)
+
+  Model-based differential test with invariants
+    ✔ B1: 2 profiles x 20 seeds x 500 steps agree with the reference model (263329ms)
+    ✔ B2: 2 profiles x 20 seeds x 500 steps agree with the reference model (277269ms)
+    ✔ B2F: 2 profiles x 20 seeds x 500 steps agree with the reference model (306853ms)
+
+set,config,scenarios_applicable,agree,false_accept,false_reject,design_conformance
+primary,B0,23,10,13,0,26/26
+primary,B1,26,20,6,0,26/26
+primary,B2,26,26,0,0,26/26
+primary,B2F,26,26,0,0,26/26
+supplementary,B0,4,3,1,0,4/4
+supplementary,B1,4,3,0,1,4/4
+supplementary,B2,4,2,0,2,4/4
+supplementary,B2F,4,4,0,0,4/4
+  Scenario oracle across B0, B1, B2 and B2F
+    ✔ replays every scenario and writes the decision matrix (12885ms)
+
+  Shariah issuance and tradability rules (B2)
+    ✔ T01: allows issuance with valid credentials and >= 33% non-debt allocation (115ms)
+    ✔ T01 boundary: exactly 33.00% non-debt is allowed
+    ✔ T02: denies issuance when the non-debt share is below 33% (32.99%) (135ms)
+    ✔ T02: a debt-classified asset does not count towards the non-debt share (77ms)
+    ✔ T03: share falls below 33% after issuance but a non-debt component remains: transfers stay allowed (162ms)
+    ✔ T03 liveness: if the witness is invalidated and not re-nominated, transfers fail closed
+    ✔ T04: transfers are denied when the non-debt component disappears
+    ✔ T04: transfers resume when a new non-debt asset is evidenced and set as witness
+    ✔ requires a current Shariah status attestation for issuance and transfer (104ms)
+
+
+  ✔ /tmp/claude-0/work/v3/test/environment.ts
+
+  ✔ /tmp/claude-0/work/v3/test/helpers.ts
+
+
+84 passing (4 solidity, 80 nodejs)
+
+Saved html report to /tmp/claude-0/work/v3/coverage/html
+╔════════════════════════════════════════════════════════════════════════════════════════════╗
+║                                      Coverage Report                                       ║
+╚════════════════════════════════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════════════════════════════════════╗
+║ File Coverage                                                                              ║
+╟────────────────────────────────────────────────┬────────┬─────────────┬────────────────────╢
+║ File Path                                      │ Line % │ Statement % │ Uncovered Lines    ║
+╟────────────────────────────────────────────────┼────────┼─────────────┼────────────────────╢
+║ contracts/baseline/BasicCompliance.sol         │ 85.71  │ 90.00       │ 44                 ║
+║ contracts/test/Mock1271Wallet.sol              │ 83.33  │ 83.33       │ 27                 ║
+║ contracts/registry/IdentityRegistry.sol        │ 88.89  │ 90.00       │ 43                 ║
+║ contracts/registry/EvidenceRegistry.sol        │ 100.00 │ 100.00      │ -                  ║
+║ contracts/policy/SukukPolicyEngine.sol         │ 98.86  │ 98.09       │ 138, 382           ║
+║ contracts/token/SukukToken.sol                 │ 98.57  │ 98.65       │ 148                ║
+║ contracts/policy/SukukPolicyEngineFallback.sol │ 100.00 │ 100.00      │ -                  ║
+║ contracts/test/InlineEvidenceHarness.sol       │ 89.13  │ 73.91       │ 42, 65, 67, 73, 79 ║
+╟────────────────────────────────────────────────┼────────┼─────────────┼────────────────────╢
+║ Total                                          │ 97.91  │ 96.98       │                    ║
+╚════════════════════════════════════════════════╧════════╧═════════════╧════════════════════╝
+
+

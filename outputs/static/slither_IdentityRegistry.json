@@ -1,0 +1,207 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "isVerified",
+            "source_mapping": {
+              "start": 1750,
+              "length": 207,
+              "filename_relative": "contracts/registry/IdentityRegistry.sol",
+              "filename_absolute": "/tmp/claude-0/work/v3/contracts/registry/IdentityRegistry.sol",
+              "filename_short": "contracts/registry/IdentityRegistry.sol",
+              "is_dependency": false,
+              "lines": [
+                53,
+                54,
+                55,
+                56
+              ],
+              "starting_column": 5,
+              "ending_column": 6
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "IdentityRegistry",
+                "source_mapping": {
+                  "start": 632,
+                  "length": 1327,
+                  "filename_relative": "contracts/registry/IdentityRegistry.sol",
+                  "filename_absolute": "/tmp/claude-0/work/v3/contracts/registry/IdentityRegistry.sol",
+                  "filename_short": "contracts/registry/IdentityRegistry.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19,
+                    20,
+                    21,
+                    22,
+                    23,
+                    24,
+                    25,
+                    26,
+                    27,
+                    28,
+                    29,
+                    30,
+                    31,
+                    32,
+                    33,
+                    34,
+                    35,
+                    36,
+                    37,
+                    38,
+                    39,
+                    40,
+                    41,
+                    42,
+                    43,
+                    44,
+                    45,
+                    46,
+                    47,
+                    48,
+                    49,
+                    50,
+                    51,
+                    52,
+                    53,
+                    54,
+                    55,
+                    56,
+                    57
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 2
+                }
+              },
+              "signature": "isVerified(address)"
+            }
+          },
+          {
+            "type": "node",
+            "name": "investor.registered && block.timestamp <= investor.eligibleUntil",
+            "source_mapping": {
+              "start": 1879,
+              "length": 71,
+              "filename_relative": "contracts/registry/IdentityRegistry.sol",
+              "filename_absolute": "/tmp/claude-0/work/v3/contracts/registry/IdentityRegistry.sol",
+              "filename_short": "contracts/registry/IdentityRegistry.sol",
+              "is_dependency": false,
+              "lines": [
+                55
+              ],
+              "starting_column": 9,
+              "ending_column": 80
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "isVerified",
+                "source_mapping": {
+                  "start": 1750,
+                  "length": 207,
+                  "filename_relative": "contracts/registry/IdentityRegistry.sol",
+                  "filename_absolute": "/tmp/claude-0/work/v3/contracts/registry/IdentityRegistry.sol",
+                  "filename_short": "contracts/registry/IdentityRegistry.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    53,
+                    54,
+                    55,
+                    56
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "IdentityRegistry",
+                    "source_mapping": {
+                      "start": 632,
+                      "length": 1327,
+                      "filename_relative": "contracts/registry/IdentityRegistry.sol",
+                      "filename_absolute": "/tmp/claude-0/work/v3/contracts/registry/IdentityRegistry.sol",
+                      "filename_short": "contracts/registry/IdentityRegistry.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        13,
+                        14,
+                        15,
+                        16,
+                        17,
+                        18,
+                        19,
+                        20,
+                        21,
+                        22,
+                        23,
+                        24,
+                        25,
+                        26,
+                        27,
+                        28,
+                        29,
+                        30,
+                        31,
+                        32,
+                        33,
+                        34,
+                        35,
+                        36,
+                        37,
+                        38,
+                        39,
+                        40,
+                        41,
+                        42,
+                        43,
+                        44,
+                        45,
+                        46,
+                        47,
+                        48,
+                        49,
+                        50,
+                        51,
+                        52,
+                        53,
+                        54,
+                        55,
+                        56,
+                        57
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 2
+                    }
+                  },
+                  "signature": "isVerified(address)"
+                }
+              }
+            }
+          }
+        ],
+        "description": "IdentityRegistry.isVerified(address) (contracts/registry/IdentityRegistry.sol#53-56) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- investor.registered && block.timestamp <= investor.eligibleUntil (contracts/registry/IdentityRegistry.sol#55)\n",
+        "markdown": "[IdentityRegistry.isVerified(address)](contracts/registry/IdentityRegistry.sol#L53-L56) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [investor.registered && block.timestamp <= investor.eligibleUntil](contracts/registry/IdentityRegistry.sol#L55)\n",
+        "first_markdown_element": "contracts/registry/IdentityRegistry.sol#L53-L56",
+        "id": "282361b0c56daa4e64bbe96c4f7c38b4dab838f3419a56f9f4b50f30f2fd2ed3",
+        "check": "timestamp",
+        "impact": "Low",
+        "confidence": "Medium",
+        "reference": "https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp"
+      }
+    ]
+  }
+}
